@@ -21,6 +21,13 @@ print_message1 "Cloning PKGBUILD repository"
 git clone -b 2-testing https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
 cd tcet-linux-pkgbuild/apps/tcet-linux-welcome
 
+# Calculate current year and month
+current_year=$(date +'%y')
+current_month=$(date +'%m')
+
+# Update the PKGBUILD file with the new pkgver value
+sed -i "s/^pkgver=.*/pkgver=$current_year.$current_month/" PKGBUILD
+
 # Read the current pkgrel value from PKGBUILD
 pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
 
