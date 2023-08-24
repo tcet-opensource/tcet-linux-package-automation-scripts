@@ -15,7 +15,7 @@ sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
 echo "Updated PKGBUILD:"
 cat PKGBUILD
 
-echo "pkgbuild started"
+echo "makepkg started"
 makepkg -s
 
 # Clone the testing repository
