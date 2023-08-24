@@ -75,11 +75,11 @@ print_message1 "Cloning the testing repository"
 git clone https://github.com/tcet-opensource/tcet-linux-repo-testing.git
 
 # Set the file names and directory paths
-new_file="tcet-linux-welcome-23.08-$updatedRel-x86_64.pkg.tar.zst"
+new_file="$directory_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst"
 destination="tcet-linux-repo-testing/x86_64/"
 
 # Remove the previous .zst file(s)
-old_files="$destination"tcet-linux-welcome-23.08-*-x86_64.pkg.tar.zst
+old_files="$destination"$directory_name-*zst
 for file in $old_files; do
     if [ -e "$file" ]; then
         rm "$file"
