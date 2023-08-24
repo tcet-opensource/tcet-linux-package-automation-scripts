@@ -19,7 +19,35 @@ print_message2() {
 # Clone the PKGBUILD repository
 print_message1 "Cloning PKGBUILD repository"
 git clone -b 2-testing https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
-cd tcet-linux-pkgbuild/apps/tcet-linux-welcome
+
+
+# Prompt the user for a directory name to search for
+echo -n "Enter a directory name to search for: "
+read directory_name
+
+# Search for the directory within tcet-linux-pkgbuild folder
+directory_path=$(find tcet-linux-pkgbuild -type d -name "$directory_name" -print)
+
+# Check if the directory was found
+if [ -z "$directory_path" ]; then
+    echo "Directory '$directory_name' not found within tcet-linux-pkgbuild folder."
+    exit 1
+fi
+
+# Ask the user for confirmation
+echo "Found directory: $directory_path"
+echo -n "Do you want to navigate to this directory? (y/n): "
+read user_choice
+
+# Check user's choice
+if [ "$user_choice" = "y" ]; then
+    cd "$directory_path"
+    echo "Navigated to: $directory_path"
+else
+    echo "Directory navigation aborted."
+fi
+
+
 
 # Calculate current year and month
 current_year=$(date +'%y')
