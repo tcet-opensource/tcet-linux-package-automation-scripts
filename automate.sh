@@ -1,5 +1,6 @@
 #!/bin/env bash
 
+# Clone the PKGBUILD repository
 git clone -b 2-testing https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
 cd tcet-linux-pkgbuild/apps/tcet-linux-welcome
 
@@ -11,17 +12,17 @@ updatedRel=$((pkgrel + 1))
 
 # Update the PKGBUILD file with the new pkgrel value
 sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
-echo PKGBUILD
+echo "Updated PKGBUILD:"
+cat PKGBUILD
+
 echo "pkgbuild started"
 makepkg -s
 
-echo "cloning the repo"
+# Clone the testing repository
+echo "Cloning the testing repository"
 git clone https://github.com/tcet-opensource/tcet-linux-repo-testing.git
 
-
-
 # Set the file names and directory paths
-
 new_file="tcet-linux-welcome-23.08-$updatedRel-x86_64.pkg.tar.zst"
 destination="tcet-linux-repo-testing/x86_64/"
 
@@ -36,30 +37,34 @@ done
 # Copy the new file to the destination
 cp "$new_file" "$destination"
 
-
-echo "updating database"
+# Update the repository database
+echo "Updating the repository database"
 cd tcet-linux-repo-testing/x86_64/
 ./update_repo.sh
 
-echo "pushing to tcet-linux-repo-testing"
+# Push to tcet-linux-repo-testing
+echo "Pushing to tcet-linux-repo-testing"
 cd ..
 git add .
 git remote set-url origin git@github.com:tcet-opensource/tcet-linux-repo-testing.git
-git commit -S -m "User input"
+git commit -S -m "Update repository"
 git push
 
-echo "removing tcet-linux-repo"
+# Clean up the repository
+echo "Removing tcet-linux-repo"
 cd ..
 rm -rf tcet-linux-repo-testing*
 
-echo "pkgbuild cleanup started"
+# Clean up the PKGBUILD repository
+echo "Cleaning up PKGBUILD"
 ./cleanup.sh
 
-echo "updating pkgbuild repo"
+# Update the PKGBUILD repository
+echo "Updating PKGBUILD repository"
 git add .
 git remote set-url origin git@github.com:tcet-opensource/tcet-linux-pkgbuild.git
-git commit -S -m "User input"
+git commit -S -m "Update PKGBUILD"
 git push
 
+echo "PKGBUILD repository has been updated"
 
-echo "pkgbuild has been updated"
