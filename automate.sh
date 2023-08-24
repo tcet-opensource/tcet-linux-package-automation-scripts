@@ -42,12 +42,17 @@ echo "Updating the repository database"
 cd tcet-linux-repo-testing/x86_64/
 ./update_repo.sh
 
+
 # Push to tcet-linux-repo-testing
 echo "Pushing to tcet-linux-repo-testing"
 cd ..
 git add .
 git remote set-url origin git@github.com:tcet-opensource/tcet-linux-repo-testing.git
-git commit -S -m "Update repository"
+
+# Prompt the user for a commit message
+echo -n "Enter commit message: "
+read commit_message
+git commit -S -m "$commit_message"
 git push
 
 # Clean up the repository
@@ -63,7 +68,10 @@ echo "Cleaning up PKGBUILD"
 echo "Updating PKGBUILD repository"
 git add .
 git remote set-url origin git@github.com:tcet-opensource/tcet-linux-pkgbuild.git
-git commit -S -m "Update PKGBUILD"
+# Prompt the user for a commit message
+echo -n "Enter commit message: "
+read commit_message
+git commit -S -m "$commit_message"
 git push
 
 echo "PKGBUILD repository has been updated"
