@@ -45,6 +45,7 @@ if [ "$user_choice" = "y" ]; then
     echo "Navigated to: $directory_path"
 else
     echo "Directory navigation aborted."
+    echo 0
 fi
 
 
@@ -105,7 +106,12 @@ git remote set-url origin git@github.com:tcet-opensource/tcet-linux-repo-testing
 echo -n "${bold}${yellow}Enter commit message:${normal} "
 read commit_message
 git commit -S -m "$commit_message"
-git push
+
+# Attempt to push and check the exit status
+if ! git push; then
+    echo "Git push failed."
+    exit 0
+fi
 
 # Clean up the repository
 print_message1 "Removing tcet-linux-repo"
