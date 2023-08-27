@@ -19,7 +19,7 @@ print_message2() {
 
 
 # Function to handle PKGBUILD operations
-update_pkgbuild() {
+get_pkgbuild() {
     local package_name=$1
 
     # Clone the PKGBUILD repository
@@ -91,8 +91,8 @@ update_pkgbuild() {
     export UPDATED_REL="$updatedRel"
 }
 
-# Call the update_pkgbuild
-update_pkgbuild $package_name
+# Call the get_pkgbuild
+get_pkgbuild $package_name
 
 
 
@@ -187,7 +187,7 @@ esac
 
 
 # Function to handle PKGBUILD repository update
-update_pkgbuild_update() {
+update_pkgbuild() {
     # Clean up the PKGBUILD repository
     print_message2 "Cleaning up PKGBUILD"
     ./cleanup.sh
@@ -212,6 +212,6 @@ update_pkgbuild_update() {
 }
 
 # Call the function
-update_pkgbuild_update
+update_pkgbuild
 
 
