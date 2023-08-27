@@ -69,8 +69,6 @@ update_pkgbuild() {
     # Reset pkgrel to 1 if pkgver year or month is updated
     if [ "$current_year" != "$previous_year" ] || [ "$current_month" != "$previous_month" ]; then
         sed -i "s/^pkgrel=.*/pkgrel=1/" PKGBUILD
-        updatedRel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
-
     else
         pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
         updatedRel=$((pkgrel + 1))
@@ -87,24 +85,21 @@ update_pkgbuild() {
 }
 
 # Call the update_pkgbuild
-#update_pkgbuild $package_name
+update_pkgbuild $package_name
 
 
 
 
 # Function to handle repository operations
 update_server() {
-
-    update_pkgbuild
-
-    choose_server
+    local server=$1
+    local package_name=$2
 
     # Clone the repository
     print_message1 "Cloning the $server"
     git clone https://github.com/tcet-opensource/$server.git
 
     # Set the file names and directory paths
-    rel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
     new_file="$package_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst"
     destination="$server/x86_64/"
 
@@ -122,7 +117,7 @@ update_server() {
     # Update the repository database
     print_message1 "Updating the repository database"
     cd $server/x86_64/
-    #./update_repo.sh
+    ./update_repo.sh
 
     # Push to server
     print_message1 "Pushing to $server"
@@ -149,7 +144,7 @@ update_server() {
 
 
 
-choose_server() {
+
 # Choose server repo
 print_message2 "Choose which repo you wanna clone and push"
 print_message1 "1) tcet-linux-applications"
@@ -162,8 +157,10 @@ read -p "Enter the number of your choice: " choice
 # Map choices to http
 case $choice in
     1) server="tcet-linux-applications" 
+       update_server $server $package_name
        ;;
     2) server="tcet-linux-repo" 
+       update_server $server $package_name
        ;;
     3) 
         server="tcet-linux-applications"
@@ -174,7 +171,7 @@ case $choice in
     *) echo "Invalid choice"
        exit 0 ;;
 esac
-}
+
 
 
 
@@ -204,7 +201,6 @@ update_pkgbuild_update() {
 }
 
 # Call the function
-#update_pkgbuild_update
+update_pkgbuild_update
 
-update_server
 
