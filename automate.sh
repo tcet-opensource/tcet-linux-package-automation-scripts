@@ -69,6 +69,8 @@ update_pkgbuild() {
     # Reset pkgrel to 1 if pkgver year or month is updated
     if [ "$current_year" != "$previous_year" ] || [ "$current_month" != "$previous_month" ]; then
         sed -i "s/^pkgrel=.*/pkgrel=1/" PKGBUILD
+        pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
+        updatedRel=$((pkgrel))
     else
         pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
         updatedRel=$((pkgrel + 1))
@@ -82,6 +84,11 @@ update_pkgbuild() {
     
     print_message1 "Running makepkg"
     makepkg -s
+
+    export PACKAGE_NAME="$package_name"
+    export CURRENT_YEAR="$current_year"
+    export CURRENT_MONTH="$current_month"
+    export UPDATED_REL="$updatedRel"
 }
 
 # Call the update_pkgbuild
@@ -93,18 +100,22 @@ update_pkgbuild $package_name
 # Function to handle repository operations
 update_server() {
     local server=$1
-    local package_name=$2
+    # Access the environment variables
+    local package_name=$PACKAGE_NAME
+    local current_year=$CURRENT_YEAR
+    local current_month=$CURRENT_MONTH
+    local updatedRel=$UPDATED_REL
 
     # Clone the repository
     print_message1 "Cloning the $server"
     git clone https://github.com/tcet-opensource/$server.git
 
     # Set the file names and directory paths
-    new_file="$package_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst"
+    new_file="${package_name}-${current_year}.${current_month}-${updatedRel}-x86_64.pkg.tar.zst"
     destination="$server/x86_64/"
 
     # Remove the previous .zst file(s)
-    old_files="$destination"$package_name-*zst
+    old_files="$destination$package_name-*zst"
     for file in $old_files; do
         if [ -e "$file" ]; then
             rm "$file"
@@ -157,16 +168,16 @@ read -p "Enter the number of your choice: " choice
 # Map choices to http
 case $choice in
     1) server="tcet-linux-applications" 
-       update_server $server $package_name
+       update_server $server
        ;;
     2) server="tcet-linux-repo" 
-       update_server $server $package_name
+       update_server $server
        ;;
     3) 
         server="tcet-linux-applications"
-        update_server $server $package_name
+        update_server $server
         server="tcet-linux-repo"
-        update_server $server $package_name
+        update_server $server
         ;;
     *) echo "Invalid choice"
        exit 0 ;;
