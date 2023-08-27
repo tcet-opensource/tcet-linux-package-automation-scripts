@@ -18,61 +18,66 @@ print_message2() {
 
 
 
+# Function to handle PKGBUILD operations
+handle_pkgbuild() {
+    local directory_name=$1
 
-# Clone the PKGBUILD repository
-print_message1 "Cloning PKGBUILD repository"
-git clone https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
+    # Clone the PKGBUILD repository
+    print_message1 "Cloning PKGBUILD repository"
+    git clone https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
 
+    # Prompt the user for a directory name to search for
+    echo -n "Enter a directory name to search for: "
+    read directory_name
 
-# Prompt the user for a directory name to search for
-echo -n "Enter a directory name to search for: "
-read directory_name
+    # Search for the directory within tcet-linux-pkgbuild folder
+    directory_path=$(find tcet-linux-pkgbuild -type d -name "$directory_name" -print)
 
-# Search for the directory within tcet-linux-pkgbuild folder
-directory_path=$(find tcet-linux-pkgbuild -type d -name "$directory_name" -print)
+    # Check if the directory was found
+    if [ -z "$directory_path" ]; then
+        echo "Directory '$directory_name' not found within tcet-linux-pkgbuild folder."
+        exit 1
+    fi
 
-# Check if the directory was found
-if [ -z "$directory_path" ]; then
-    echo "Directory '$directory_name' not found within tcet-linux-pkgbuild folder."
-    exit 1
-fi
+    # Ask the user for confirmation
+    echo "Found directory: $directory_path"
+    echo -n "Do you want to navigate to this directory? (y/n): "
+    read user_choice
 
-# Ask the user for confirmation
-echo "Found directory: $directory_path"
-echo -n "Do you want to navigate to this directory? (y/n): "
-read user_choice
+    # Check user's choice
+    if [ "$user_choice" = "y" ]; then
+        cd "$directory_path"
+        echo "Navigated to: $directory_path"
+    else
+        echo "Directory navigation aborted."
+        exit 0  # Exit successfully
+    fi
 
-# Check user's choice
-if [ "$user_choice" = "y" ]; then
-    cd "$directory_path"
-    echo "Navigated to: $directory_path"
-else
-    echo "Directory navigation aborted."
-    exit 0  # Exit successfully
-fi
+    # Calculate current year and month
+    current_year=$(date +'%y')
+    current_month=$(date +'%m')
+    
+    # Update the PKGBUILD file with the new pkgver value
+    sed -i "s/^pkgver=.*/pkgver=$current_year.$current_month/" PKGBUILD
+    
+    # Read the current pkgrel value from PKGBUILD
+    pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
+    
+    # Increment the pkgrel value
+    updatedRel=$((pkgrel + 1))
+    
+    # Update the PKGBUILD file with the new pkgrel value
+    sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
+    print_message1 "Updated PKGBUILD:"
+    cat PKGBUILD
+    
+    print_message1 "Running makepkg"
+    makepkg -s
+}
 
+# Call the handle_pkgbuild
+handle_pkgbuild $directory_name
 
-
-# Calculate current year and month
-current_year=$(date +'%y')
-current_month=$(date +'%m')
-
-# Update the PKGBUILD file with the new pkgver value
-sed -i "s/^pkgver=.*/pkgver=$current_year.$current_month/" PKGBUILD
-
-# Read the current pkgrel value from PKGBUILD
-pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
-
-# Increment the pkgrel value
-updatedRel=$((pkgrel + 1))
-
-# Update the PKGBUILD file with the new pkgrel value
-sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
-print_message1 "Updated PKGBUILD:"
-cat PKGBUILD
-
-print_message1 "Running makepkg"
-makepkg -s
 
 
 
@@ -155,25 +160,38 @@ case $choice in
         handle_repository $server $directory_name
         ;;
     *) echo "Invalid choice"
-       exit 1 ;;
+       exit 0 ;;
 esac
 
 
 
 
-# Clean up the PKGBUILD repository
-print_message2 "Cleaning up PKGBUILD"
-./cleanup.sh
+# Function to handle PKGBUILD repository update
+handle_pkgbuild_update() {
+    # Clean up the PKGBUILD repository
+    print_message2 "Cleaning up PKGBUILD"
+    ./cleanup.sh
 
-# Update the PKGBUILD repository
-print_message1 "Updating PKGBUILD repository"
-git add .
-git remote set-url origin git@github.com:tcet-opensource/tcet-linux-pkgbuild.git
-# Prompt the user for a commit message
-echo -n "${bold}${yellow}Enter commit message:${normal} "
-read commit_message
-git commit -S -m "$commit_message"
-git push
+    # Update the PKGBUILD repository
+    print_message1 "Updating PKGBUILD repository"
+    git add .
+    git remote set-url origin git@github.com:tcet-opensource/tcet-linux-pkgbuild.git
 
-print_message1 "PKGBUILD repository has been updated"
+    # Prompt the user for a commit message
+    echo -n "${bold}${yellow}Enter commit message:${normal} "
+    read commit_message
+    git commit -S -m "$commit_message"
+
+    # Attempt to push and check the exit status
+    if ! git push; then
+        echo "Git push failed."
+        exit 0
+    fi
+
+    print_message1 "PKGBUILD repository has been updated"
+}
+
+# Call the function
+handle_pkgbuild_update
+
 
