@@ -18,7 +18,7 @@ print_message2() {
 
 # Clone the PKGBUILD repository
 print_message1 "Cloning PKGBUILD repository"
-git clone -b 2-testing https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
+git clone https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
 
 
 # Prompt the user for a directory name to search for
@@ -73,7 +73,7 @@ makepkg -s
 
 # Clone the testing repository
 print_message1 "Cloning the testing repository"
-git clone https://github.com/tcet-opensource/tcet-linux-repo-testing.git
+git clone https://github.com/tcet-opensource/tcet-linux-applications.git
 
 # Set the file names and directory paths
 new_file="$directory_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst"
