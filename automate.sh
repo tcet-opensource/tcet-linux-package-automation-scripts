@@ -19,8 +19,8 @@ print_message2() {
 
 
 # Function to handle PKGBUILD operations
-handle_pkgbuild() {
-    local directory_name=$1
+update_pkgbuild() {
+    local package_name=$1
 
     # Clone the PKGBUILD repository
     print_message1 "Cloning PKGBUILD repository"
@@ -28,26 +28,26 @@ handle_pkgbuild() {
 
     # Prompt the user for a directory name to search for
     echo -n "Enter a directory name to search for: "
-    read directory_name
+    read package_name
 
     # Search for the directory within tcet-linux-pkgbuild folder
-    directory_path=$(find tcet-linux-pkgbuild -type d -name "$directory_name" -print)
+    pkgbuild_path=$(find tcet-linux-pkgbuild -type d -name "$package_name" -print)
 
     # Check if the directory was found
-    if [ -z "$directory_path" ]; then
-        echo "Directory '$directory_name' not found within tcet-linux-pkgbuild folder."
+    if [ -z "$pkgbuild_path" ]; then
+        echo "Directory '$package_name' not found within tcet-linux-pkgbuild folder."
         exit 1
     fi
 
     # Ask the user for confirmation
-    echo "Found directory: $directory_path"
+    echo "Found directory: $pkgbuild_path"
     echo -n "Do you want to navigate to this directory? (y/n): "
     read user_choice
 
     # Check user's choice
     if [ "$user_choice" = "y" ]; then
-        cd "$directory_path"
-        echo "Navigated to: $directory_path"
+        cd "$pkgbuild_path"
+        echo "Navigated to: $pkgbuild_path"
     else
         echo "Directory navigation aborted."
         exit 0  # Exit successfully
@@ -75,27 +75,27 @@ handle_pkgbuild() {
     makepkg -s
 }
 
-# Call the handle_pkgbuild
-handle_pkgbuild $directory_name
+# Call the update_pkgbuild
+update_pkgbuild $package_name
 
 
 
 
 # Function to handle repository operations
-handle_repository() {
+update_server() {
     local server=$1
-    local directory_name=$2
+    local package_name=$2
 
     # Clone the repository
     print_message1 "Cloning the $server"
     git clone https://github.com/tcet-opensource/$server.git
 
     # Set the file names and directory paths
-    new_file="$directory_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst"
+    new_file="$package_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst"
     destination="$server/x86_64/"
 
     # Remove the previous .zst file(s)
-    old_files="$destination"$directory_name-*zst
+    old_files="$destination"$package_name-*zst
     for file in $old_files; do
         if [ -e "$file" ]; then
             rm "$file"
@@ -148,16 +148,16 @@ read -p "Enter the number of your choice: " choice
 # Map choices to http
 case $choice in
     1) server="tcet-linux-applications" 
-       handle_repository $server $directory_name
+       update_server $server $package_name
        ;;
     2) server="tcet-linux-repo" 
-       handle_repository $server $directory_name
+       update_server $server $package_name
        ;;
     3) 
         server="tcet-linux-applications"
-        handle_repository $server $directory_name
+        update_server $server $package_name
         server="tcet-linux-repo"
-        handle_repository $server $directory_name
+        update_server $server $package_name
         ;;
     *) echo "Invalid choice"
        exit 0 ;;
@@ -167,7 +167,7 @@ esac
 
 
 # Function to handle PKGBUILD repository update
-handle_pkgbuild_update() {
+update_pkgbuild_update() {
     # Clean up the PKGBUILD repository
     print_message2 "Cleaning up PKGBUILD"
     ./cleanup.sh
@@ -192,6 +192,6 @@ handle_pkgbuild_update() {
 }
 
 # Call the function
-handle_pkgbuild_update
+update_pkgbuild_update
 
 
