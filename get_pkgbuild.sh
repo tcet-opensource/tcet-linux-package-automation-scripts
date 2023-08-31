@@ -35,30 +35,35 @@ get_pkgbuild() {
         exit 0  # Exit successfully
     fi
 
-    # Read the current pkgver value from PKGBUILD
-    current_pkgver=$(grep -oP '^pkgver=\K\d+\.\d+' PKGBUILD)
-    previous_year=$(echo "$current_pkgver" | cut -d'.' -f1)
-    previous_month=$(echo "$current_pkgver" | cut -d'.' -f2)
-    
-    # Calculate current year and month
-    current_year=$(date +'%y')
-    current_month=$(date +'%m')
-    
-    # Update the PKGBUILD file with the new pkgver value
-    new_pkgver="$current_year.$current_month"
-    sed -i "s/^pkgver=.*/pkgver=$new_pkgver/" PKGBUILD
-    
-    # Reset pkgrel to 1 if pkgver year or month is updated
-    if [ "$current_year" != "$previous_year" ] || [ "$current_month" != "$previous_month" ]; then
-        sed -i "s/^pkgrel=.*/pkgrel=1/" PKGBUILD
-        pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
-        updatedRel=$((pkgrel))
+    if [ "$package_name" = "calamares-3.2.62" ]; then
+        print_message3 "No need to update pkgbuild"
     else
-        pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
-        updatedRel=$((pkgrel + 1))
+
+        # Read the current pkgver value from PKGBUILD
+        current_pkgver=$(grep -oP '^pkgver=\K\d+\.\d+' PKGBUILD)
+        previous_year=$(echo "$current_pkgver" | cut -d'.' -f1)
+        previous_month=$(echo "$current_pkgver" | cut -d'.' -f2)
     
-        # Update the PKGBUILD file with the new pkgrel value
-        sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
+        # Calculate current year and month
+        current_year=$(date +'%y')
+        current_month=$(date +'%m')
+    
+        # Update the PKGBUILD file with the new pkgver value
+        new_pkgver="$current_year.$current_month"
+        sed -i "s/^pkgver=.*/pkgver=$new_pkgver/" PKGBUILD
+    
+        # Reset pkgrel to 1 if pkgver year or month is updated
+        if [ "$current_year" != "$previous_year" ] || [ "$current_month" != "$previous_month" ]; then
+            sed -i "s/^pkgrel=.*/pkgrel=1/" PKGBUILD
+            pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
+            updatedRel=$((pkgrel))
+        else
+            pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
+            updatedRel=$((pkgrel + 1))
+    
+            # Update the PKGBUILD file with the new pkgrel value
+            sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
+        fi
     fi
 
     print_message1 "Updated PKGBUILD:"

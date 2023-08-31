@@ -21,6 +21,10 @@ print_message2() {
     echo "${bold}${green}$1${normal}"
 }
 
+print_message3() {
+    echo "${bold}${yellow}$1${normal}"
+}
+
 
 # Call the get_pkgbuild function
 get_pkgbuild $package_name
