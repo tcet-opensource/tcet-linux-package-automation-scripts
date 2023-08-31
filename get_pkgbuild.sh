@@ -8,9 +8,45 @@ get_pkgbuild() {
     print_message1 "Cloning PKGBUILD repository"
     git clone https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
 
-    # Prompt the user for a directory name to search for
-    echo -n "Enter a directory name to search for: "
-    read package_name
+    # Prompt the user for a package name
+    print_message1 "Enter a directory name to search for: "
+    print_message2 "1) tcet-linux-neofetch"
+    print_message2 "2) tcet-linux-task-manager"
+    print_message2 "3) tcet-linux-welcome"
+    print_message2 "4) tcet-linux-wallpaper"
+    print_message2 "5) calamares-3.2.62"
+    print_message2 "6) calamares-desktop"
+    print_message2 "7) tcet-linux-installer-config"
+    print_message2 "8) tcet-linux-qogir-theme"
+    print_message2 "9) tcet-linux-set-once"
+    print_message2 "10) tcet-linux-settings"
+    
+    # Prompt the user for a choice
+    read -p "Enter the number of your choice: " choice
+    case $choice in
+        1) package_name="tcet-linux-neofetch" 
+           ;;
+        2) package_name="tcet-linux-task-manager" 
+           ;;
+        3) package_name="tcet-linux-welcome"
+           ;;
+        4) package_name="tcet-linux-wallpaper"
+           ;;
+        5) package_name="calamares-3.2.62"
+           ;;
+        6) package_name="calamares-desktop"
+           ;;
+        7) package_name="tcet-linux-installer-config"
+           ;;
+        8) package_name="tcet-linux-qogir-theme"
+           ;;
+        9) package_name="tcet-linux-set-once"
+           ;;
+        10) package_name="tcet-linux-settings"
+            ;;
+        *) echo "Invalid choice"
+           exit 0 ;;
+    esac
 
     # Search for the directory within tcet-linux-pkgbuild folder
     pkgbuild_path=$(find tcet-linux-pkgbuild -type d -name "$package_name" -print)
