@@ -29,6 +29,17 @@ print_message3() {
 # Call the get_pkgbuild function
 get_pkgbuild $package_name
 
+# Back to main directory
+path="$pkgbuild_path"
+back="../"
+
+while [[ $path == */* ]]; do
+    path="${path#*/}"
+    back="${back}../"
+done
+
+cd "$back"
+
 
 # Choose server repo
 print_message2 "Choose which repo you wanna clone and push"
@@ -56,6 +67,7 @@ case $choice in
     *) echo "Invalid choice"
        exit 0 ;;
 esac
+
 
 # Call the update_pkgbuild function
 update_pkgbuild

@@ -100,17 +100,21 @@ get_pkgbuild() {
             # Update the PKGBUILD file with the new pkgrel value
             sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
         fi
+
+        print_message1 "Updated PKGBUILD:"
+        cat PKGBUILD
+
+        print_message1 "Running makepkg"
+        if ! makepkg -s; then
+            print_message3 "makepkg encountered an error."
+            exit 1
+        fi
+
+        export PACKAGE_NAME="$package_name"
+        export CURRENT_YEAR="$current_year"
+        export CURRENT_MONTH="$current_month"
+        export UPDATED_REL="$updatedRel"
+
     fi
-
-    print_message1 "Updated PKGBUILD:"
-    cat PKGBUILD
-    
-    print_message1 "Running makepkg"
-    makepkg -s
-
-    export PACKAGE_NAME="$package_name"
-    export CURRENT_YEAR="$current_year"
-    export CURRENT_MONTH="$current_month"
-    export UPDATED_REL="$updatedRel"
 }
 

@@ -26,7 +26,7 @@ update_server() {
     done
 
     # Copy the new file to the destination
-    cp "$new_file" "$destination"
+    cp "$pkgbuild_path/$new_file" "$destination"
 
     # Update the repository database
     print_message1 "Updating the repository database"
