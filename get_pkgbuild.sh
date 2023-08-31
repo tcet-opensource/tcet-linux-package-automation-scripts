@@ -72,6 +72,11 @@ get_pkgbuild() {
     fi
 
     if [ "$package_name" = "calamares-3.2.62" ]; then
+            pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
+            updatedRel=$((pkgrel + 1))
+    
+            # Update the PKGBUILD file with the new pkgrel value
+            sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
         print_message3 "No need to update pkgbuild"
     else
 
@@ -100,7 +105,7 @@ get_pkgbuild() {
             # Update the PKGBUILD file with the new pkgrel value
             sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
         fi
-
+    fi
         print_message1 "Updated PKGBUILD:"
         cat PKGBUILD
 
@@ -115,6 +120,5 @@ get_pkgbuild() {
         export CURRENT_MONTH="$current_month"
         export UPDATED_REL="$updatedRel"
 
-    fi
 }
 
