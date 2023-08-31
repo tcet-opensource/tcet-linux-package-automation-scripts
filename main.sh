@@ -37,7 +37,7 @@ trap cleanup SIGINT
 # Call the get_pkgbuild function
 get_pkgbuild $package_name
 
-# Call the origin function
+# Call the path_origin function
 path_origin
 
 # Choose server repo
