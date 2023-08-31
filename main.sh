@@ -80,4 +80,7 @@ esac
 # Call the update_pkgbuild function
 update_pkgbuild
 
+# Cleanup at last
+cleanup
+
 
