@@ -33,6 +33,7 @@ get_pkgbuild $package_name
 path="$pkgbuild_path"
 back="../"
 
+# Convert $path into ../../
 while [[ $path == */* ]]; do
     path="${path#*/}"
     back="${back}../"
