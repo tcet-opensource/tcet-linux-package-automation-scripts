@@ -113,7 +113,6 @@ get_pkgbuild() {
         print_message1 "Running makepkg"
         if ! makepkg -s; then
             print_message3 "makepkg encountered an error."
-            path_origin
             cleanup
         fi
 

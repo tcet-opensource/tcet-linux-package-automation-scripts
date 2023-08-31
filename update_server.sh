@@ -49,9 +49,4 @@ update_server() {
         echo "Git push failed."
         cleanup
     fi
-
-    # Clean up the repository
-    print_message1 "Removing $server"
-    cd ..
-    rm -rf $server*
 }

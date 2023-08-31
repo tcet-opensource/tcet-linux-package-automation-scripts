@@ -72,6 +72,6 @@ esac
 update_pkgbuild
 
 # Cleanup at last
-cleanup
+#cleanup
 
 
