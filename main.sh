@@ -12,6 +12,7 @@ normal=$(tput sgr0)
 green=$(tput setaf 2)
 yellow=$(tput setaf 3)
 blue=$(tput setaf 4)
+red=$(tput setaf 1)
 
 # Function to display colored output
 print_message1() {
@@ -24,6 +25,9 @@ print_message2() {
 
 print_message3() {
     echo "${bold}${yellow}$1${normal}"
+}
+print_message4(){
+    echo "${bold}${red}$1${normal}"
 }
 
 # Running cleanup when ctrl+c pressed
