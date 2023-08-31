@@ -26,6 +26,8 @@ print_message3() {
     echo "${bold}${yellow}$1${normal}"
 }
 
+# Running cleanup when ctrl+c pressed
+trap cleanup SIGINT
 
 # Call the get_pkgbuild function
 get_pkgbuild $package_name
