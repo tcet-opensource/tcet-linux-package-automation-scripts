@@ -47,7 +47,7 @@ update_server() {
     # Attempt to push and check the exit status
     if ! git push; then
         echo "Git push failed."
-        exit 0
+        cleanup
     fi
 
     # Clean up the repository

@@ -44,8 +44,8 @@ get_pkgbuild() {
            ;;
         10) package_name="tcet-linux-settings"
             ;;
-        *) echo "Invalid choice"
-           exit 0 ;;
+        *) print_message3 "Invalid choice"
+           cleanup ;;
     esac
 
     # Search for the directory within tcet-linux-pkgbuild folder
@@ -68,7 +68,7 @@ get_pkgbuild() {
         echo "Navigated to: $pkgbuild_path"
     else
         echo "Directory navigation aborted."
-        exit 0  # Exit successfully
+        cleanup  # Exit successfully
     fi
 
     if [ "$package_name" = "calamares-3.2.62" ]; then

@@ -19,7 +19,7 @@ update_pkgbuild() {
     # Attempt to push and check the exit status
     if ! git push; then
         echo "Git push failed."
-        exit 0
+        cleanup
     fi
 
     print_message1 "PKGBUILD repository has been updated"

@@ -4,6 +4,7 @@
 source update_pkgbuild.sh
 source get_pkgbuild.sh
 source update_server.sh
+source cleanup.sh
 
 # Define text formatting variables
 bold=$(tput bold)
@@ -65,8 +66,8 @@ case $choice in
         server="tcet-linux-repo"
         update_server $server
         ;;
-    *) echo "Invalid choice"
-       exit 0 ;;
+    *) print_message3 "Invalid choice"
+        cleanup ;;
 esac
 
 
