@@ -4,6 +4,7 @@
 source update_pkgbuild.sh
 source get_pkgbuild.sh
 source update_server.sh
+source path_origin.sh
 source cleanup.sh
 
 # Define text formatting variables
@@ -36,18 +37,8 @@ trap cleanup SIGINT
 # Call the get_pkgbuild function
 get_pkgbuild $package_name
 
-# Back to main directory
-path="$pkgbuild_path"
-back="../"
-
-# Convert $path into ../../
-while [[ $path == */* ]]; do
-    path="${path#*/}"
-    back="${back}../"
-done
-
-cd "$back"
-
+# Call the origin function
+path_origin
 
 # Choose server repo
 print_message2 "Choose which repo you wanna clone and push"

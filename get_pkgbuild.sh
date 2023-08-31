@@ -72,12 +72,13 @@ get_pkgbuild() {
     fi
 
     if [ "$package_name" = "calamares-3.2.62" ]; then
-            pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
-            updatedRel=$((pkgrel + 1))
+        pkgrel=$(grep -oP '^pkgrel=\K\d+' PKGBUILD)
+        updatedRel=$((pkgrel + 1))
     
-            # Update the PKGBUILD file with the new pkgrel value
-            sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
+        # Update the PKGBUILD file with the new pkgrel value
+        sed -i "s/^pkgrel=$pkgrel/pkgrel=$updatedRel/" PKGBUILD
         print_message3 "No need to update pkgbuild"
+
     else
 
         # Read the current pkgver value from PKGBUILD
@@ -112,7 +113,8 @@ get_pkgbuild() {
         print_message1 "Running makepkg"
         if ! makepkg -s; then
             print_message3 "makepkg encountered an error."
-            exit 1
+            path_origin
+            cleanup
         fi
 
         export PACKAGE_NAME="$package_name"
