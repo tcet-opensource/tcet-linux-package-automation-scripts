@@ -62,8 +62,8 @@ get_pkgbuild() {
     echo -n "Do you want to navigate to this directory? (y/n): "
     read user_choice
 
-    # Check user's choice
-    if [ "$user_choice" = "y" ]; then
+    # Check user's choice, if user presses on y or enter key it should run
+   if [ "$user_choice" = "y" ] || [ "$user_choice" = "" ]; then
         cd "$pkgbuild_path"
         echo "Navigated to: $pkgbuild_path"
     else
