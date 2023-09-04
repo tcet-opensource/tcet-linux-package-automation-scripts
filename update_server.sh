@@ -21,6 +21,8 @@ update_server() {
         new_file=$package_name-*-x86_64.pkg.tar.zst
     fi
 
+    print_message4 $new_file
+
     destination="$server/x86_64/"
 
     # Remove the previous .zst file(s)
