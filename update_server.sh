@@ -14,7 +14,13 @@ update_server() {
     git clone https://github.com/tcet-opensource/$server.git
 
     # Set the file names and directory paths
-    new_file="${package_name}-${current_year}.${current_month}-${updatedRel}-x86_64.pkg.tar.zst"
+    new_file=$package_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst
+
+    # Check if the new_file exists, otherwise, use the alternative pattern
+    if [ ! -e "$new_file" ]; then
+        new_file=$package_name-*-x86_64.pkg.tar.zst
+    fi
+
     destination="$server/x86_64/"
 
     # Remove the previous .zst file(s)
@@ -26,7 +32,7 @@ update_server() {
     done
 
     # Copy the new file to the destination
-    cp "$pkgbuild_path/$new_file" "$destination"
+    cp $pkgbuild_path/$new_file $destination
 
     # Update the repository database
     print_message1 "Updating the repository database"
