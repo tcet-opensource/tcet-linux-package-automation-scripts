@@ -28,7 +28,7 @@ The following function scripts are located in the same directory as the main scr
 
 * `get_pkgbuild.sh`: This script updates a single PKGBUILD file. It prompts you to select the PKGBUILD file to update, then updates the `pkgver` and `pkgrel` values and runs `makepkg`.
 * `update_server.sh`: This script handles repository operations. It clones a specified repository, copies the new package to the repository, updates the repository database, and pushes the changes to the remote repository.
-* `update_pkgbuild.sh`: This script provides the update_pkgbuild function to update a PKGBUILD repository, including cleanup, changes addition, commit, push, and success confirmation.
+* `update_pkgbuild.sh`: This script provides the update_pkgbuild function to update a PKGBUILD repository, including perform_cleanup, changes addition, commit, push, and success confirmation.
   
 ## Note
 

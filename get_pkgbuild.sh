@@ -45,7 +45,7 @@ get_pkgbuild() {
         10) package_name="tcet-linux-settings"
             ;;
         *) print_message3 "Invalid choice"
-           cleanup ;;
+           perform_cleanup ;;
     esac
 
     # Search for the directory within tcet-linux-pkgbuild folder
@@ -68,7 +68,7 @@ get_pkgbuild() {
         echo "Navigated to: $pkgbuild_path"
     else
         echo "Directory navigation aborted."
-        cleanup  # Exit successfully
+        perform_cleanup  # Exit successfully
     fi
 
     if [ "$package_name" = "calamares-3.2.62" ]; then
@@ -113,7 +113,7 @@ get_pkgbuild() {
         print_message1 "Running makepkg"
         if ! makepkg -s; then
             print_message3 "makepkg encountered an error."
-            cleanup
+            perform_cleanup
         fi
 
         export PACKAGE_NAME="$package_name"

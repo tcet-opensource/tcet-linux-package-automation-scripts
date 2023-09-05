@@ -31,8 +31,8 @@ print_message4(){
     echo "${bold}${red}$1${normal}"
 }
 
-# Running cleanup when ctrl+c pressed
-trap cleanup SIGINT
+# Running perform_cleanup when ctrl+c pressed
+trap perform_cleanup SIGINT
 
 # Call the get_pkgbuild function
 get_pkgbuild $package_name
@@ -41,11 +41,11 @@ get_pkgbuild $package_name
 path_origin
 
 # Choose server repo
-print_message2 "Choose which repo you wanna clone and push"
-print_message1 "1) tcet-linux-applications"
-print_message1 "2) tcet-linux-repo"
-print_message1 "3) both"
-print_message1 "4) tcet-linux-repo-testing"
+print_message1 "Choose which repo you wanna clone and push"
+print_message2 "1) tcet-linux-applications"
+print_message2 "2) tcet-linux-repo"
+print_message2 "3) both"
+print_message2 "4) tcet-linux-repo-testing"
 
 # Prompt the user for a choice
 read -p "Enter the number of your choice: " choice
@@ -69,14 +69,14 @@ case $choice in
        update_server $server
        ;;
     *) print_message3 "Invalid choice"
-        cleanup ;;
+        perform_cleanup ;;
 esac
 
 
 # Call the update_pkgbuild function
 update_pkgbuild
 
-# Cleanup at last
-#cleanup
+# perform_cleanup at last
+#perform_cleanup
 
 
