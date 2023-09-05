@@ -3,6 +3,7 @@
 # Function to handle PKGBUILD repository update
 update_pkgbuild() {
     # Clean up the PKGBUILD repository
+    cd $pkgbuild_path
     print_message2 "Cleaning up PKGBUILD"
     ./cleanup.sh
 

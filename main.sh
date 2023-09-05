@@ -45,6 +45,7 @@ print_message2 "Choose which repo you wanna clone and push"
 print_message1 "1) tcet-linux-applications"
 print_message1 "2) tcet-linux-repo"
 print_message1 "3) both"
+print_message1 "4) tcet-linux-repo-testing"
 
 # Prompt the user for a choice
 read -p "Enter the number of your choice: " choice
@@ -58,11 +59,15 @@ case $choice in
        update_server $server
        ;;
     3) 
-        server="tcet-linux-applications"
-        update_server $server
-        server="tcet-linux-repo"
-        update_server $server
-        ;;
+       server="tcet-linux-applications"
+       update_server $server
+       server="tcet-linux-repo"
+       update_server $server
+       ;;
+
+    4) server="tcet-linux-repo-testing"
+       update_server $server
+       ;;
     *) print_message3 "Invalid choice"
         cleanup ;;
 esac

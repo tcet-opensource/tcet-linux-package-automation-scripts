@@ -57,4 +57,5 @@ update_server() {
         echo "Git push failed."
         cleanup
     fi
+    cd ..
 }
