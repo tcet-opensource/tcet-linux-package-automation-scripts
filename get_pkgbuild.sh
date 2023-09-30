@@ -21,7 +21,7 @@ get_pkgbuild() {
     print_message2 "9) tcet-linux-set-once"
     print_message2 "10) tcet-linux-settings"
     print_message2 "11) tcet-linux-lsb-release"
-    print_message2 "12) tcet-linux-tk"
+    print_message2 "12) tk"
 
     
     # Prompt the user for a choice
@@ -49,7 +49,7 @@ get_pkgbuild() {
             ;;
         11) package_name="tcet-linux-lsb-release"
             ;;
-        12) package_name="tcet-linux-tk"
+        12) package_name="tk"
             ;;
         *) print_message3 "Invalid choice"
            perform_cleanup ;;
