@@ -20,6 +20,9 @@ get_pkgbuild() {
     print_message2 "8) tcet-linux-qogir-theme"
     print_message2 "9) tcet-linux-set-once"
     print_message2 "10) tcet-linux-settings"
+    print_message2 "11) tcet-linux-lsb-release"
+    print_message2 "12) tk"
+
     
     # Prompt the user for a choice
     read -p "Enter the number of your choice: " choice
@@ -43,6 +46,10 @@ get_pkgbuild() {
         9) package_name="tcet-linux-set-once"
            ;;
         10) package_name="tcet-linux-settings"
+            ;;
+        11) package_name="tcet-linux-lsb-release"
+            ;;
+        12) package_name="tk"
             ;;
         *) print_message3 "Invalid choice"
            perform_cleanup ;;
