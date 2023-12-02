@@ -26,7 +26,7 @@ package_build(){
 
     # Sign package 
     # List of GPG keys
-    gpg_keys=("280178FA27665D44" "421FFABA41F36DA5" "02F660CD5FA77EBB" "BF4E1E687DD0A534")
+    gpg_keys=("280178FA27665D44-Akash6222" "421FFABA41F36DA5-Rishabh672003" "02F660CD5FA77EBB-0xAtharv" "BF4E1E687DD0A534-harshau007")
 
     print_message1 "Choose a GPG key:"
     for ((i=0; i<${#gpg_keys[@]}; i++)); do
@@ -40,8 +40,7 @@ package_build(){
       perform_cleanup
     fi
 
-    selected_gpg_key="${gpg_keys[gpg_key_choice-1]}"
-
+    selected_gpg_key=$(echo "${gpg_keys[gpg_key_choice-1]}" | cut -d'-' -f1)
     print_message1 "Selected GPG key: $selected_gpg_key"
 
     gpgkey() {
