@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 # Function to handle PKGBUILD repository update
 update_pkgbuild() {

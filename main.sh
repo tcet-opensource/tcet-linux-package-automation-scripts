@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 # Importing source file
 source update_pkgbuild.sh
@@ -6,6 +6,7 @@ source get_pkgbuild.sh
 source update_server.sh
 source path_origin.sh
 source cleanup.sh
+source package_build.sh
 
 # Define text formatting variables
 bold=$(tput bold)
@@ -37,6 +38,8 @@ trap perform_cleanup SIGINT
 # Call the get_pkgbuild function
 get_pkgbuild $package_name
 
+# Call the package_build
+package_build $package_name
 # Call the path_origin function
 path_origin
 

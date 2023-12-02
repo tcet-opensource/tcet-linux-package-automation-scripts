@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 # Importing source file
 source get_pkgbuild.sh

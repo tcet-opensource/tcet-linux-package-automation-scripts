@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 # Function to handle PKGBUILD operations
 get_pkgbuild() {
@@ -116,12 +116,6 @@ get_pkgbuild() {
     fi
         print_message1 "Updated PKGBUILD:"
         cat PKGBUILD
-
-        print_message1 "Running makepkg"
-        if ! makepkg -s; then
-            print_message3 "makepkg encountered an error."
-            perform_cleanup
-        fi
 
         export PACKAGE_NAME="$package_name"
         export CURRENT_YEAR="$current_year"

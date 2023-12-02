@@ -1,40 +1,42 @@
-#!/bin/env bash
+#!/bin/bash
 
 # Function to handle repository operations
 update_server() {
     local server=$1
     # Access the environment variables
-    local package_name=$PACKAGE_NAME
-    local current_year=$CURRENT_YEAR
-    local current_month=$CURRENT_MONTH
-    local updatedRel=$UPDATED_REL
+    local zst_file=$ZST_FILE
+    local sig_file=$SIG_FILE
 
     # Clone the repository
     print_message1 "Cloning the $server"
     git clone https://github.com/tcet-opensource/$server.git
 
-    # Set the file names and directory paths
-    new_file=$package_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst
+    print_message4 $zst_file
+    print_message4 $sig_file
 
-    # Check if the new_file exists, otherwise, use the alternative pattern
-    if [ ! -e "$new_file" ]; then
-        new_file=$package_name-*-x86_64.pkg.tar.zst
-    fi
-
-    print_message4 $new_file
 
     destination="$server/x86_64/"
 
     # Remove the previous .zst file(s)
-    old_files="$destination$package_name-*zst"
-    for file in $old_files; do
+    old_zst_files="$destination$package_name-*zst"
+    for file in $old_zst_files; do
         if [ -e "$file" ]; then
             rm "$file"
         fi
     done
 
+    old_sig_files="$destination$package_name-*zst.sig"
+    for file in $old_sig_files; do
+        if [ -e "$file" ]; then
+            rm "$file"
+        fi
+    done
+
+
     # Copy the new file to the destination
-    cp $pkgbuild_path/$new_file $destination
+    cp $pkgbuild_path/$zst_file $destination
+    cp $pkgbuild_path/$sig_file $destination
+
 
     # Update the repository database
     print_message1 "Updating the repository database"
