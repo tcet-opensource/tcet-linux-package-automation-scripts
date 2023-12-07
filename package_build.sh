@@ -14,7 +14,7 @@ package_build(){
         print_message3 "makepkg encountered an error."
         perform_cleanup
     fi
-
+    
     # Set the file names and directory paths
     zst_file=$package_name-$current_year.$current_month-$updatedRel-x86_64.pkg.tar.zst
 
