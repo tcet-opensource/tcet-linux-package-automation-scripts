@@ -23,6 +23,7 @@ get_pkgbuild() {
     print_message2 "11) tcet-linux-settings"
     print_message2 "12) tcet-linux-lsb-release"
     print_message2 "13) tk"
+    print_message2 "14) tcet-linux-multilang-compiler"
 
     
     # Prompt the user for a choice
@@ -53,6 +54,8 @@ get_pkgbuild() {
         12) package_name="tcet-linux-lsb-release"
             ;;
         13) package_name="tk"
+            ;;
+        14) package_name="tcet-linux-multilang-compiler"
             ;;
         *) print_message3 "Invalid choice"
            perform_cleanup ;;
