@@ -3,6 +3,7 @@
 # Function to handle repository operations
 update_server() {
     local server=$1
+    local package_name=$PACKAGE_NAME
     # Access the environment variables
     local zst_file=$ZST_FILE
     local sig_file=$SIG_FILE
@@ -49,11 +50,11 @@ update_server() {
     git add .
     git remote set-url origin git@github.com:tcet-opensource/$server.git
 
-    # Prompt the user for a commit message
-    echo -n "${bold}${yellow}Enter commit message:${normal} "
-    read commit_message
-    git commit -S -m "$commit_message"
+    # Create commit message
+    commit_message="[PKG-UPD] $package_name"
 
+    # Commit changes
+    git commit -S -m "$commit_message"
     # Attempt to push and check the exit status
     if ! git push; then
         print_message4 "Git push failed."
