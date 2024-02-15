@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Importing source file
+# Importing source files
 source update_pkgbuild.sh
 source get_pkgbuild.sh
 source update_server.sh
@@ -28,58 +28,79 @@ print_message2() {
 print_message3() {
     echo "${bold}${yellow}$1${normal}"
 }
-print_message4(){
+
+print_message4() {
     echo "${bold}${red}$1${normal}"
 }
 
 # Running perform_cleanup when ctrl+c pressed
 trap perform_cleanup SIGINT
 
-# Call the get_pkgbuild function
-get_pkgbuild $package_name
-
-# Call the package_build
-package_build $package_name
-# Call the path_origin function
-path_origin
+print_message1 "Updated all packages? Enter yes or no: "
+read -p "Enter choice (yes/no): " ans
 
 # Choose server repo
-print_message1 "Choose which repo you wanna clone and push"
+print_message1 "Choose which repo you want to clone and push"
 print_message2 "1) tcet-linux-applications"
 print_message2 "2) tcet-linux-repo"
 print_message2 "3) both"
 print_message2 "4) tcet-linux-repo-testing"
 
 # Prompt the user for a choice
-read -p "Enter the number of your choice: " choice
+read -p "Enter the number of your choice: " server_choice
 
-# Map choices to http
-case $choice in
-    1) server="tcet-linux-applications" 
-       update_server $server
-       ;;
-    2) server="tcet-linux-repo" 
-       update_server $server
-       ;;
-    3) 
-       server="tcet-linux-applications"
-       update_server $server
-       server="tcet-linux-repo"
-       update_server $server
-       ;;
+# Sign package 
+# List of GPG keys
+gpg_keys=("280178FA27665D44-Akash6222" "421FFABA41F36DA5-Rishabh672003" "02F660CD5FA77EBB-0xAtharv" "BF4E1E687DD0A534-harshau007")
 
-    4) server="tcet-linux-repo-testing"
-       update_server $server
-       ;;
-    *) print_message3 "Invalid choice"
-        perform_cleanup ;;
-esac
+print_message1 "Choose a GPG key:"
+for ((i=0; i<${#gpg_keys[@]}; i++)); do
+    echo "$((i+1)). ${gpg_keys[i]}"
+done
+
+read -p "Enter the number of your choice: " gpg_key_choice
 
 
-# Call the update_pkgbuild function
-update_pkgbuild
 
-# perform_cleanup at last
-#perform_cleanup
+if [ "$ans" == "yes" ]; then
+    for ((i=1; i<=17; i++)); do
+        print_message1 "Updating package $i"
+       # package_build $i
 
+        # Call the get_pkgbuild function
+        get_pkgbuild $package_name $i
 
+       # Call the package_build
+       package_build $package_name
+       # Call the path_origin function
+       path_origin
+
+        # Map choices to http
+        case $server_choice in
+            1) server="tcet-linux-applications"
+               update_server $server
+               ;;
+            2) server="tcet-linux-repo"
+               update_server $server
+               ;;
+            3) 
+               server="tcet-linux-applications"
+               update_server $server
+               server="tcet-linux-repo"
+               update_server $server
+               ;;
+
+            4) server="tcet-linux-repo-testing"
+               update_server $server
+               ;;
+            *) print_message3 "Invalid choice"
+                perform_cleanup ;;
+        esac
+
+        # Call the update_pkgbuild function
+        update_pkgbuild
+    done
+    print_message1 "All packages updated successfully."
+else
+    print_message3 "Bhai tu dekh le humse na ho payega"
+fi

@@ -24,5 +24,5 @@ update_pkgbuild() {
     fi
 
     print_message1 "PKGBUILD repository has been updated"
-    perform_cleanup
+    #perform_cleanup
 }

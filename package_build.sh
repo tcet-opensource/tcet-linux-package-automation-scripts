@@ -24,16 +24,6 @@ package_build(){
     fi
 
 
-    # Sign package 
-    # List of GPG keys
-    gpg_keys=("280178FA27665D44-Akash6222" "421FFABA41F36DA5-Rishabh672003" "02F660CD5FA77EBB-0xAtharv" "BF4E1E687DD0A534-harshau007")
-
-    print_message1 "Choose a GPG key:"
-    for ((i=0; i<${#gpg_keys[@]}; i++)); do
-      echo "$((i+1)). ${gpg_keys[i]}"
-    done
-
-    read -p "Enter the number of your choice: " gpg_key_choice
 
     if [[ ! "$gpg_key_choice" =~ ^[1-${#gpg_keys[@]}]$ ]]; then
       print_message3 "Invalid choice. Aborting."

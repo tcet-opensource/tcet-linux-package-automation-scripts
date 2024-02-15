@@ -2,15 +2,22 @@
 
 # Function to handle PKGBUILD operations
 get_pkgbuild() {
-    local package_name=$1
-
+    local package_name
+    local package_number
+    
+    if [ "$ans" == "yes" ]; then
+    package_number=$i
+    else
+    read -p "Enter the number of your choice: " package_number
+    fi
+    
     # Clone the PKGBUILD repository
     print_message1 "Cloning PKGBUILD repository"
     git clone https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
 
     # Prompt the user for a package name
     print_message1 "Enter a directory name to search for: "
-    print_message2 "1) calamares-3.2.62"
+    print_message2 "1) calamares-desktop"
     print_message2 "2) calamares-desktop"
     print_message2 "3) tcet-linux-gnome-settings"
     print_message2 "4) tcet-linux-gnome-set-once"
@@ -27,15 +34,16 @@ get_pkgbuild() {
     print_message2 "15) tcet-linux-xfce-wallpaper"
     print_message2 "16) tcet-linux-welcome"
     print_message2 "17) tk"
+    print_message2 "18) update-all-packages"
     print_message3 "Invalid choice"
 
     
 
 
 # Prompt the user for a choice
-read -p "Enter the number of your choice: " choice
-case $choice in
-    1) package_name="calamares-3.2.62"
+#read -p "Enter the number of your choice: " choice
+case $package_number in
+    1) package_name="calamares-desktop"
        ;;
     2) package_name="calamares-desktop"
        ;;
@@ -69,6 +77,9 @@ case $choice in
         ;;
     17) package_name="tk"
         ;;
+    18) package_name="update-all-packages"
+        ;;
+
     *) print_message3 "Invalid choice"
        perform_cleanup ;;
 esac
@@ -85,9 +96,9 @@ esac
     fi
 
     # Ask the user for confirmation
-    echo "Found directory: $pkgbuild_path"
-    echo -n "Do you want to navigate to this directory? (y/n): "
-    read user_choice
+    #echo "Found directory: $pkgbuild_path"
+    #echo -n "Do you want to navigate to this directory? (y/n): "
+    #read user_choice
 
     # Check user's choice, if user presses on y or enter key it should run
    if [ "$user_choice" = "y" ] || [ "$user_choice" = "" ]; then
