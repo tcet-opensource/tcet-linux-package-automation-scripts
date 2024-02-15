@@ -10,59 +10,69 @@ get_pkgbuild() {
 
     # Prompt the user for a package name
     print_message1 "Enter a directory name to search for: "
-    print_message2 "1) tcet-linux-neofetch"
-    print_message2 "2) tcet-linux-task-manager"
-    print_message2 "3) welcome"
-    print_message2 "4) welcome-liveuser"
-    print_message2 "5) tcet-linux-wallpaper"
-    print_message2 "6) calamares-3.2.62"
-    print_message2 "7) calamares-desktop"
-    print_message2 "8) tcet-linux-installer-config"
-    print_message2 "9) tcet-linux-qogir-theme"
-    print_message2 "10) tcet-linux-set-once"
-    print_message2 "11) tcet-linux-settings"
-    print_message2 "12) tcet-linux-lsb-release"
-    print_message2 "13) tk"
-    print_message2 "14) tcet-linux-multilang-compiler"
-    print_message2 "15) tcet-linux-keyring"
+    print_message2 "1) calamares-3.2.62"
+    print_message2 "2) calamares-desktop"
+    print_message2 "3) tcet-linux-gnome-settings"
+    print_message2 "4) tcet-linux-gnome-set-once"
+    print_message2 "5) tcet-linux-gnome-wallpaper"
+    print_message2 "6) tcet-linux-installer-config"
+    print_message2 "7) tcet-linux-keyring"
+    print_message2 "8) tcet-linux-lsb-release"
+    print_message2 "9) tcet-linux-multilang-compiler"
+    print_message2 "10) tcet-linux-neofetch"
+    print_message2 "11) tcet-linux-qogir-theme"
+    print_message2 "12) tcet-linux-task-manager"
+    print_message2 "13) tcet-linux-xfce-set-once"
+    print_message2 "14) tcet-linux-xfce-settings"
+    print_message2 "15) tcet-linux-xfce-wallpaper"
+    print_message2 "16) tcet-linux-welcome"
+    print_message2 "17) tk"
+    print_message3 "Invalid choice"
 
     
-    # Prompt the user for a choice
-    read -p "Enter the number of your choice: " choice
-    case $choice in
-        1) package_name="tcet-linux-neofetch" 
-           ;;
-        2) package_name="tcet-linux-task-manager" 
-           ;;
-        3) package_name="welcome"
-            ;;
-        4) package_name="welcome-liveuser"
-            ;;
-        5) package_name="tcet-linux-wallpaper"
-           ;;
-        6) package_name="calamares-3.2.62"
-           ;;
-        7) package_name="calamares-desktop"
-           ;;
-        8) package_name="tcet-linux-installer-config"
-           ;;
-        9) package_name="tcet-linux-qogir-theme"
-           ;;
-        10) package_name="tcet-linux-set-once"
-           ;;
-        11) package_name="tcet-linux-settings"
-            ;;
-        12) package_name="tcet-linux-lsb-release"
-            ;;
-        13) package_name="tk"
-            ;;
-        14) package_name="tcet-linux-multilang-compiler"
-            ;;
-        15) package_name="tcet-linux-keyring"
-            ;;
-        *) print_message3 "Invalid choice"
-           perform_cleanup ;;
-    esac
+
+
+# Prompt the user for a choice
+read -p "Enter the number of your choice: " choice
+case $choice in
+    1) package_name="calamares-3.2.62"
+       ;;
+    2) package_name="calamares-desktop"
+       ;;
+    3) package_name="tcet-linux-gnome-settings"
+       ;;
+    4) package_name="tcet-linux-gnome-set-once"
+       ;;
+    5) package_name="tcet-linux-gnome-wallpaper"
+       ;;
+    6) package_name="tcet-linux-installer-config"
+       ;;
+    7) package_name="tcet-linux-keyring"
+       ;;
+    8) package_name="tcet-linux-lsb-release"
+       ;;
+    9) package_name="tcet-linux-multilang-compiler"
+       ;;
+    10) package_name="tcet-linux-neofetch"
+        ;;
+    11) package_name="tcet-linux-qogir-theme"
+        ;;
+    12) package_name="tcet-linux-task-manager"
+        ;;
+    13) package_name="tcet-linux-xfce-set-once"
+        ;;
+    14) package_name="tcet-linux-xfce-settings"
+        ;;
+    15) package_name="tcet-linux-xfce-wallpaper"
+        ;;
+    16) package_name="tcet-linux-welcome"
+        ;;
+    17) package_name="tk"
+        ;;
+    *) print_message3 "Invalid choice"
+       perform_cleanup ;;
+esac
+
 
 
     # Search for the directory within tcet-linux-pkgbuild folder
