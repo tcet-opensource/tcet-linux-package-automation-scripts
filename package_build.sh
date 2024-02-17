@@ -20,9 +20,10 @@ package_build(){
 
     # Check if the zst_file exists, otherwise, use the alternative pattern
     if [ ! -e "$zst_file" ]; then
-        zst_file=$package_name-*-x86_64.pkg.tar.zst
+        zst_file=$package_name-$updatedRel-x86_64.pkg.tar.zst
     fi
 
+    
 
 
     if [[ ! "$gpg_key_choice" =~ ^[1-${#gpg_keys[@]}]$ ]]; then
@@ -51,7 +52,7 @@ package_build(){
 
     # Check if the sig_file exists, otherwise, use the alternative pattern
     if [ ! -e "$sig_file" ]; then
-        sig_file=$package_name-*-x86_64.pkg.tar.zst.sig
+        sig_file=$package_name-$updatedRel-x86_64.pkg.tar.zst.sig
     fi
 
     

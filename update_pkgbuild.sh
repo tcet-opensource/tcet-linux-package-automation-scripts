@@ -4,18 +4,21 @@
 update_pkgbuild() {
     local package_name=$PACKAGE_NAME
     # Clean up the PKGBUILD repository
-    cd $pkgbuild_path
-    print_message2 "Cleaning up PKGBUILD"
-    ./cleanup.sh
+    cd tcet-linux-pkgbuild
+    #print_message2 "Cleaning up PKGBUILD"
+    #./cleanup.sh
 
     # Update the PKGBUILD repository
     print_message1 "Updating PKGBUILD repository"
-    git checkout 21-test
+    #git checkout 21-test
     git add .
     git remote set-url origin git@github.com:tcet-opensource/tcet-linux-pkgbuild.git
 
-    # Create commit message
-    commit_message="[PKG-UPD] $package_name"
+    if [ "$ans" == "yes" ]; then
+    commit_message="All PKGBUILD Have Been Updated"
+    else
+    commit_message="$package_name PKGBUILD Have Been Updated"    
+    fi
 
     # Commit changes
     git commit -S -m "$commit_message"

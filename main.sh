@@ -3,10 +3,11 @@
 # Importing source files
 source update_pkgbuild.sh
 source get_pkgbuild.sh
-source update_server.sh
+source get_server.sh
 source path_origin.sh
 source cleanup.sh
 source package_build.sh
+source update_server.sh
 
 # Define text formatting variables
 bold=$(tput bold)
@@ -63,7 +64,7 @@ read -p "Enter the number of your choice: " gpg_key_choice
 
 
 if [ "$ans" == "yes" ]; then
-    for ((i=1; i<=17; i++)); do
+    for ((i=1; i<=19; i++)); do
         print_message1 "Updating package $i"
        # package_build $i
 
@@ -78,29 +79,103 @@ if [ "$ans" == "yes" ]; then
         # Map choices to http
         case $server_choice in
             1) server="tcet-linux-applications"
-               update_server $server
+               get_server $server
                ;;
             2) server="tcet-linux-repo"
-               update_server $server
+               get_server $server
                ;;
             3) 
                server="tcet-linux-applications"
-               update_server $server
+               get_server $server
                server="tcet-linux-repo"
-               update_server $server
+               get_server $server
                ;;
 
             4) server="tcet-linux-repo-testing"
-               update_server $server
+               get_server $server
                ;;
             *) print_message3 "Invalid choice"
                 perform_cleanup ;;
         esac
 
-        # Call the update_pkgbuild function
-        update_pkgbuild
     done
+
+    # To Update Different Server
+    if [ -d "tcet-linux-applications" ]; then
+        print_message1 "Repository 'tcet-linux-applications' exists"
+        server="tcet-linux-applications"        
+        update_server $server
+    fi
+    if [ -d "tcet-linux-repo" ]; then
+        print_message1 "Repository 'tcet-linux-repo' exists"
+        server="tcet-linux-repo"
+        update_server $server
+    fi
+    if [ -d "tcet-linux-repo-testing" ]; then
+        print_message1 "Repository 'tcet-linux-repo-testing' exists"
+        server="tcet-linux-repo-testing"
+        update_server $server
+    fi
+
+    # Call the update_pkgbuild function
+    update_pkgbuild $ans
+
     print_message1 "All packages updated successfully."
+
+    perform_cleanup
 else
-    print_message3 "Bhai tu dekh le humse na ho payega"
+        # Call the get_pkgbuild function
+        get_pkgbuild $package_name
+
+       # Call the package_build
+       package_build $package_name
+       # Call the path_origin function
+       path_origin
+
+        # Map choices to http
+        case $server_choice in
+            1) server="tcet-linux-applications"
+               get_server $server
+               ;;
+            2) server="tcet-linux-repo"
+               get_server $server
+               ;;
+            3) 
+               server="tcet-linux-applications"
+               get_server $server
+               server="tcet-linux-repo"
+               get_server $server
+               ;;
+
+            4) server="tcet-linux-repo-testing"
+               get_server $server
+               ;;
+            *) print_message3 "Invalid choice"
+                perform_cleanup ;;
+        esac
+
+    # To Update Different Server
+    if [ -d "tcet-linux-applications" ]; then
+        print_message1 "Repository 'tcet-linux-applications' exists"
+        server="tcet-linux-applications"        
+        update_server $server
+    fi
+    if [ -d "tcet-linux-repo" ]; then
+        print_message1 "Repository 'tcet-linux-repo' exists"
+        server="tcet-linux-repo"
+        update_server $server
+    fi
+    if [ -d "tcet-linux-repo-testing" ]; then
+        print_message1 "Repository 'tcet-linux-repo-testing' exists"
+        server="tcet-linux-repo-testing"
+        update_server $server
+    fi
+
+
+    # Call the update_pkgbuild function
+    update_pkgbuild $ans
+
+    perform_cleanup
+
+    #print_message1 "$package_name has been updated successfully."
 fi

@@ -4,20 +4,17 @@
 get_pkgbuild() {
     local package_name
     local package_number
-    
-    if [ "$ans" == "yes" ]; then
-    package_number=$i
-    else
-    read -p "Enter the number of your choice: " package_number
-    fi
-    
+        
     # Clone the PKGBUILD repository
     print_message1 "Cloning PKGBUILD repository"
-    git clone https://github.com/tcet-opensource/tcet-linux-pkgbuild.git 
-
+    git clone https://github.com/tcet-opensource/tcet-linux-pkgbuild.git
+    #cd tcet-linux-pkgbuild
+    #git checkout 21-test
+    #cd ..
+    
     # Prompt the user for a package name
     print_message1 "Enter a directory name to search for: "
-    print_message2 "1) calamares-desktop"
+    print_message2 "1) calamares-3.2.62"
     print_message2 "2) calamares-desktop"
     print_message2 "3) tcet-linux-gnome-settings"
     print_message2 "4) tcet-linux-gnome-set-once"
@@ -25,25 +22,30 @@ get_pkgbuild() {
     print_message2 "6) tcet-linux-installer-config"
     print_message2 "7) tcet-linux-keyring"
     print_message2 "8) tcet-linux-lsb-release"
-    print_message2 "9) tcet-linux-multilang-compiler"
-    print_message2 "10) tcet-linux-neofetch"
-    print_message2 "11) tcet-linux-qogir-theme"
-    print_message2 "12) tcet-linux-task-manager"
-    print_message2 "13) tcet-linux-xfce-set-once"
-    print_message2 "14) tcet-linux-xfce-settings"
-    print_message2 "15) tcet-linux-xfce-wallpaper"
-    print_message2 "16) tcet-linux-welcome"
-    print_message2 "17) tk"
-    print_message2 "18) update-all-packages"
+    print_message2 "9) tcet-linux-code-runner"
+    print_message2 "10) tcet-linux-cache-cleanup"
+    print_message2 "11) tcet-linux-neofetch"
+    print_message2 "12) tcet-linux-qogir-theme"
+    print_message2 "13) tcet-linux-task-manager"
+    print_message2 "14) tcet-linux-xfce-set-once"
+    print_message2 "15) tcet-linux-xfce-settings"
+    print_message2 "16) tcet-linux-xfce-wallpaper"
+    print_message2 "17) welcome"
+    print_message2 "18) welcome-liveuser"
+    print_message2 "19) tk"
     print_message3 "Invalid choice"
 
-    
+if [ "$ans" == "yes" ]; then
+package_number=$i
+else
+read -p "Enter the number of your choice: " package_number
+fi
 
 
 # Prompt the user for a choice
 #read -p "Enter the number of your choice: " choice
 case $package_number in
-    1) package_name="calamares-desktop"
+    1) package_name="calamares-3.2.62"
        ;;
     2) package_name="calamares-desktop"
        ;;
@@ -59,27 +61,28 @@ case $package_number in
        ;;
     8) package_name="tcet-linux-lsb-release"
        ;;
-    9) package_name="tcet-linux-multilang-compiler"
+    9) package_name="tcet-linux-code-runner"
        ;;
-    10) package_name="tcet-linux-neofetch"
+    10) package_name="tcet-linux-cache-cleanup"
         ;;
-    11) package_name="tcet-linux-qogir-theme"
+    11) package_name="tcet-linux-neofetch"
         ;;
-    12) package_name="tcet-linux-task-manager"
+    12) package_name="tcet-linux-qogir-theme"
         ;;
-    13) package_name="tcet-linux-xfce-set-once"
+    13) package_name="tcet-linux-task-manager"
         ;;
-    14) package_name="tcet-linux-xfce-settings"
+    14) package_name="tcet-linux-xfce-set-once"
         ;;
-    15) package_name="tcet-linux-xfce-wallpaper"
+    15) package_name="tcet-linux-xfce-settings"
         ;;
-    16) package_name="tcet-linux-welcome"
+    16) package_name="tcet-linux-xfce-wallpaper"
         ;;
-    17) package_name="tk"
+    17) package_name="welcome"
         ;;
-    18) package_name="update-all-packages"
+    18) package_name="welcome-liveuser"
         ;;
-
+    19) package_name="tk"
+        ;;
     *) print_message3 "Invalid choice"
        perform_cleanup ;;
 esac

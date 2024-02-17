@@ -4,42 +4,7 @@
 update_server() {
     local server=$1
     local package_name=$PACKAGE_NAME
-    # Access the environment variables
-    local zst_file=$ZST_FILE
-    local sig_file=$SIG_FILE
 
-    # Clone the repository
-    print_message1 "Cloning the $server"
-    git clone https://github.com/tcet-opensource/$server.git
-
-    print_message4 $zst_file
-    print_message4 $sig_file
-
-
-    destination="$server/x86_64/"
-
-    # Remove the previous .zst file(s)
-    old_zst_files="$destination$package_name-*zst"
-    for file in $old_zst_files; do
-        if [ -e "$file" ]; then
-            rm "$file"
-        fi
-    done
-
-    old_sig_files="$destination$package_name-*zst.sig"
-    for file in $old_sig_files; do
-        if [ -e "$file" ]; then
-            rm "$file"
-        fi
-    done
-
-
-    # Copy the new file to the destination
-    cp $pkgbuild_path/$zst_file $destination
-    cp $pkgbuild_path/$sig_file $destination
-
-
-    # Update the repository database
     print_message1 "Updating the repository database"
     cd $server/x86_64/
     ./update_repo.sh
@@ -51,7 +16,12 @@ update_server() {
     git remote set-url origin git@github.com:tcet-opensource/$server.git
 
     # Create commit message
-    commit_message="[PKG-UPD] $package_name"
+
+    if [ "$ans" == "yes" ]; then
+    commit_message="[PKG-UPD] All Packages Are Updated"
+    else
+    commit_message="[PKG-UPD] $package_name"    
+    fi
 
     # Commit changes
     git commit -S -m "$commit_message"
