@@ -15,18 +15,19 @@ get_server() {
     print_message4 $zst_file
     print_message4 $sig_file
 
-
-    destination="$server/x86_64/"
+    mkdir tcet-linux-newpackages
+    destination="tcet-linux-newpackages/"
+    destination1="$server/x86_64/"
 
     # Remove the previous .zst file(s)
-    old_zst_files="$destination$package_name-*zst"
+    old_zst_files="$destination1$package_name-*zst"
     for file in $old_zst_files; do
         if [ -e "$file" ]; then
             rm "$file"
         fi
     done
 
-    old_sig_files="$destination$package_name-*zst.sig"
+    old_sig_files="$destination1$package_name-*zst.sig"
     for file in $old_sig_files; do
         if [ -e "$file" ]; then
             rm "$file"

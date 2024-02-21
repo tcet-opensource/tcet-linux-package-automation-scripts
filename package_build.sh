@@ -23,8 +23,6 @@ package_build(){
         zst_file=$package_name-$updatedRel-x86_64.pkg.tar.zst
     fi
 
-    
-
 
     if [[ ! "$gpg_key_choice" =~ ^[1-${#gpg_keys[@]}]$ ]]; then
       print_message3 "Invalid choice. Aborting."

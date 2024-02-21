@@ -6,6 +6,7 @@ update_server() {
     local package_name=$PACKAGE_NAME
 
     print_message1 "Updating the repository database"
+    cp -r $destination/* $server/x86_64/
     cd $server/x86_64/
     ./update_repo.sh
 
