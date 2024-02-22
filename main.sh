@@ -64,7 +64,7 @@ read -p "Enter the number of your choice: " gpg_key_choice
 
 
 if [ "$ans" == "all" ]; then
-    for ((i=2; i<=19; i++)); do
+    for ((i=1; i<=19; i++)); do
         print_message1 "Updating package $i"
         # package_build $i
 
