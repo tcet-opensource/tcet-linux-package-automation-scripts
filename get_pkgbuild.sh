@@ -35,8 +35,12 @@ get_pkgbuild() {
     print_message2 "19) tk"
     print_message3 "Invalid choice"
 
-if [ "$ans" == "yes" ]; then
-package_number=$i
+if [ "$ans" == "all" ]; then
+    package_number=$i
+
+elif [ "$ans" == "few" ]; then
+    package_number=$i
+
 else
 read -p "Enter the number of your choice: " package_number
 fi

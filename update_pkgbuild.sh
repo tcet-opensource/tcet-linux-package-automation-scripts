@@ -14,8 +14,10 @@ update_pkgbuild() {
     git add .
     git remote set-url origin git@github.com:tcet-opensource/tcet-linux-pkgbuild.git
 
-    if [ "$ans" == "yes" ]; then
+    if [ "$ans" == "all" ]; then
     commit_message="All PKGBUILD Have Been Updated"
+    elif [ "$ans" == "few" ]; then
+    commit_message="Few PKGBUILD Have Been Updated"
     else
     commit_message="$package_name PKGBUILD Have Been Updated"    
     fi

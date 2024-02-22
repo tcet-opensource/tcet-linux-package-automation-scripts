@@ -38,7 +38,7 @@ print_message4() {
 trap perform_cleanup SIGINT
 
 print_message1 "Updated all packages? Enter yes or no: "
-read -p "Enter choice (yes/no): " ans
+read -p "Enter choice (all/few/one): " ans
 
 # Choose server repo
 print_message1 "Choose which repo you want to clone and push"
@@ -63,8 +63,81 @@ read -p "Enter the number of your choice: " gpg_key_choice
 
 
 
-if [ "$ans" == "yes" ]; then
-    for ((i=1; i<=19; i++)); do
+if [ "$ans" == "all" ]; then
+    for ((i=2; i<=19; i++)); do
+        print_message1 "Updating package $i"
+        # package_build $i
+
+        # Call the get_pkgbuild function
+        get_pkgbuild $package_name $i
+
+        # Call the package_build
+        package_build $package_name
+        # Call the path_origin function
+        path_origin
+
+        # Map choices to http
+        case $server_choice in
+            1) server="tcet-linux-applications"
+               get_server $server
+               ;;
+            2) server="tcet-linux-repo"
+               get_server $server
+               ;;
+            3) 
+               server="tcet-linux-applications"
+               get_server $server
+               server="tcet-linux-repo"
+               get_server $server
+               ;;
+
+            4) server="tcet-linux-repo-testing"
+               get_server $server
+               ;;
+            *) print_message3 "Invalid choice"
+                perform_cleanup ;;
+        esac
+
+    done
+
+    # To Update Different Server
+    if [ -d "tcet-linux-applications" ]; then
+        print_message1 "Repository 'tcet-linux-applications' exists"
+        server="tcet-linux-applications"        
+        update_server $server
+    fi
+    if [ -d "tcet-linux-repo" ]; then
+        print_message1 "Repository 'tcet-linux-repo' exists"
+        server="tcet-linux-repo"
+        update_server $server
+    fi
+    if [ -d "tcet-linux-repo-testing" ]; then
+        print_message1 "Repository 'tcet-linux-repo-testing' exists"
+        server="tcet-linux-repo-testing"
+        update_server $server
+    fi
+
+    # Call the update_pkgbuild function
+    update_pkgbuild $ans
+
+    print_message1 "All packages updated successfully."
+
+    perform_cleanup
+
+elif [ "$ans" == "few" ]; then
+
+    # Prompt the user to enter comma-separated values
+    echo "Enter comma-separated values:"
+    read -r input
+
+    # Split the input into an array
+    IFS=',' read -r -a values <<< "$input"
+
+    # Loop through the values and assign 'a' at each iteration
+    for val in "${values[@]}"; do
+        i="$val"
+        echo "a is now: $i"
+
         print_message1 "Updating package $i"
        # package_build $i
 
@@ -122,7 +195,8 @@ if [ "$ans" == "yes" ]; then
 
     print_message1 "All packages updated successfully."
 
-    perform_cleanup
+    perform_cleanup 
+
 else
         # Call the get_pkgbuild function
         get_pkgbuild $package_name
