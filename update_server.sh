@@ -24,8 +24,10 @@ update_server() {
         git remote set-url origin "git@github.com:tcet-opensource/$server.git"
 
         # Create commit message
-        if [ "$ans" == "yes" ]; then
+        if [ "$ans" == "all" ]; then
             commit_message="[PKG-UPD] All Packages Are Updated"
+        elif [ "$ans" == "few" ]; then
+            commit_message="[PKG-UPD] Few Packages Are Updated"
         else
             commit_message="[PKG-UPD] $package_name"    
         fi
