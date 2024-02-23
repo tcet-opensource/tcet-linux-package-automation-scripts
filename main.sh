@@ -37,7 +37,7 @@ print_message4() {
 # Running perform_cleanup when ctrl+c pressed
 trap perform_cleanup SIGINT
 
-print_message1 "Updated all packages? Enter yes or no: "
+print_message1 "Updated all/few/one packages? "
 read -p "Enter choice (all/few/one): " ans
 
 # Choose server repo
