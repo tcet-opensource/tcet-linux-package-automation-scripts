@@ -20,20 +20,3 @@ run_main() {
 # Call the function
 run_main
 
-
-case $server_choice in
-    1) server="tcet-linux-applications"
-        ;;
-    2) server="tcet-linux-repo"
-        ;;
-    3) 
-       server="tcet-linux-applications"
-       server="tcet-linux-repo"
-        ;;
-
-    4) server="tcet-linux-repo-testing"
-        ;;
-    *) print_message3 "Invalid choice"
-        perform_cleanup ;;
-esac
-
