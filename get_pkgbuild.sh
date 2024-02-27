@@ -33,7 +33,6 @@ get_pkgbuild() {
     print_message2 "17) welcome"
     print_message2 "18) welcome-liveuser"
     print_message2 "19) tk"
-    print_message3 "Invalid choice"
 
 if [ "$ans" == "all" ]; then
     package_number=$i

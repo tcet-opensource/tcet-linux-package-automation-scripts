@@ -126,9 +126,30 @@ if [ "$ans" == "all" ]; then
 
 elif [ "$ans" == "few" ]; then
 
-    # Prompt the user to enter comma-separated values
-    echo "Enter comma-separated values:"
-    read -r input
+    # Prompt the user for a package name
+    print_message1 "Enter a directory name to search for: "
+    print_message2 "1) calamares-3.2.62"
+    print_message2 "2) calamares-desktop"
+    print_message2 "3) tcet-linux-gnome-settings"
+    print_message2 "4) tcet-linux-gnome-set-once"
+    print_message2 "5) tcet-linux-gnome-wallpaper"
+    print_message2 "6) tcet-linux-installer-config"
+    print_message2 "7) tcet-linux-keyring"
+    print_message2 "8) tcet-linux-lsb-release"
+    print_message2 "9) tcet-linux-code-runner"
+    print_message2 "10) tcet-linux-cache-cleanup"
+    print_message2 "11) tcet-linux-neofetch"
+    print_message2 "12) tcet-linux-qogir-theme"
+    print_message2 "13) tcet-linux-task-manager"
+    print_message2 "14) tcet-linux-xfce-set-once"
+    print_message2 "15) tcet-linux-xfce-settings"
+    print_message2 "16) tcet-linux-xfce-wallpaper"
+    print_message2 "17) welcome"
+    print_message2 "18) welcome-liveuser"
+    print_message2 "19) tk"
+
+    # Prompt the user to enter comma-separated values and read input
+    read -rp "Enter comma-separated values: " input
 
     # Split the input into an array
     IFS=',' read -r -a values <<< "$input"
@@ -136,7 +157,7 @@ elif [ "$ans" == "few" ]; then
     # Loop through the values and assign 'a' at each iteration
     for val in "${values[@]}"; do
         i="$val"
-        echo "a is now: $i"
+        echo "Package number is: $i"
 
         print_message1 "Updating package $i"
        # package_build $i
@@ -197,7 +218,8 @@ elif [ "$ans" == "few" ]; then
 
     perform_cleanup 
 
-else
+elif [ "$ans" == "one" ]; then
+
         # Call the get_pkgbuild function
         get_pkgbuild $package_name
 
@@ -252,4 +274,7 @@ else
     perform_cleanup
 
     #print_message1 "$package_name has been updated successfully."
+else
+    print_message4 "Invalid choice"
+    perform_cleanup
 fi
