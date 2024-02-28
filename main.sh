@@ -40,6 +40,13 @@ trap perform_cleanup SIGINT
 print_message1 "Updated all/few/one packages? "
 read -p "Enter choice (all/few/one): " ans
 
+# Check if input is not "all", "few", or "one"
+if [[ "$ans" != "all" && "$ans" != "few" && "$ans" != "one" ]]; then
+    print_message4  "Invalid input. Exiting..."
+    exit 0
+fi
+
+
 # Choose server repo
 print_message1 "Choose which repo you want to clone and push"
 print_message2 "1) tcet-linux-applications"
